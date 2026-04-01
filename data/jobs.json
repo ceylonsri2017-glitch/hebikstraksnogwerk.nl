@@ -1,0 +1,10 @@
+[
+  {"job": "geschiedenisdocent", "score": 2, "report": "Dit beroep is relatief veilig. AI kan lesmateriaal voorbereiden, maar de pedagogische interactie en menselijke verbinding in de klas zijn onvervangbaar."},
+  {"job": "eventmanager", "score": 4, "report": "Eventmanagement is een vak waar AI kan helpen bij logistiek en planning, maar de menselijke regie op de locatie zelf en het crisismanagement blijven essentieel."},
+  {"job": "software developer", "score": 7, "report": "Software ontwikkeling staat onder druk. AI schrijft inmiddels grote delen van de code, maar de architectuur en complexe systeemintegraties vereisen nog steeds menselijk inzicht."},
+  {"job": "klantenservicemedewerker", "score": 9, "report": "Dit beroep staat onder zeer hoge druk. AI-chatbots en stemassistenten kunnen het overgrote deel van de standaardvragen sneller en 24/7 afhandelen."},
+  {"job": "vertaler/tolk", "score": 9, "report": "Vertaalwerk is in hoge mate geautomatiseerd. AI-modellen zijn inmiddels zo goed dat voor standaardteksten en documentatie bijna geen mens meer nodig is."},
+  {"job": "accountant", "score": 9, "report": "Financiële administratie is zeer vatbaar voor automatisering. AI-systemen verwerken cijfers en signaleren afwijkingen sneller en nauwkeuriger dan de mens."},
+  {"job": "arts", "score": 1, "report": "Jouw expertise is zeer veilig. Hoewel AI ondersteunt bij diagnoses, blijven het medisch oordeel, de empathie naar de patiënt en complexe besluitvorming menselijk."},
+  {"job": "timmerman", "score": 2, "report": "Fysiek vakmanschap is lastig te automatiseren. AI kan ontwerpen, maar de uitvoering in de fysieke wereld vereist menselijke vaardigheden die robots voorlopig niet hebben."}
+]
