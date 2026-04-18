@@ -1,17 +1,19 @@
 import { NextResponse } from "next/server";
 import OpenAI from "openai";
 
+// Gebruik OPENAI_API_KEY als fallback omdat de SDK dit standaard verwacht
 const openai = new OpenAI({
   baseURL: "https://openrouter.ai/api/v1",
-  apiKey: process.env.OPENROUTER_API_KEY,
+  apiKey: process.env.OPENAI_API_KEY || process.env.OPENROUTER_API_KEY,
 });
 
 export async function POST(request: Request) {
   try {
     const { job } = await request.json();
     
-    if (!process.env.OPENROUTER_API_KEY) {
-        throw new Error("OPENROUTER_API_KEY is not set");
+    // Check of we überhaupt een sleutel hebben
+    if (!process.env.OPENAI_API_KEY && !process.env.OPENROUTER_API_KEY) {
+        throw new Error("Geen API Key gevonden in de omgeving");
     }
 
     const completion = await openai.chat.completions.create({
@@ -38,7 +40,7 @@ export async function POST(request: Request) {
       tasks_disappearing: content.tasks_disappearing || []
     });
   } catch (error) {
-    console.error("OpenRouter API Error:", error);
+    console.error("API Error:", error);
     return NextResponse.json({ 
       ai_response: "Onze analyse-service is tijdelijk onbereikbaar.",
       score: 5,
