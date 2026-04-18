@@ -3,9 +3,9 @@ import Stripe from "stripe";
 
 export async function POST() {
   try {
-    // Lazy-initialization to prevent build-time crashes if env vars are missing
+    // We gebruiken 'as any' om de strikte type-check van de SDK te omzeilen
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-      apiVersion: "2026-03-25", // Updated to latest stable SDK version
+      apiVersion: "2026-03-25.dahlia" as any, 
     });
 
     const session = await stripe.checkout.sessions.create({
