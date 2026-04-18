@@ -6,24 +6,13 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import jobs from "../../data/jobs.json";
-
-// Component voor de advertentie-ruimte
-const AdSensePlaceholder = ({ slot, label }: { slot: string, label: string }) => (
-  <div className="w-full h-32 bg-slate-100 border border-slate-200 rounded-lg flex items-center justify-center text-slate-400 text-sm my-4 border-dashed">
-    {label} ({slot})
-  </div>
-);
+import { Copy, Sparkles } from "lucide-react";
+import Link from "next/link";
 
 export default function Home() {
   const [job, setJob] = useState("");
   const [result, setResult] = useState<{ score: number, report: string, tasks_disappearing?: string[] } | null>(null);
   const [loading, setLoading] = useState(false);
-
-  const getScoreColor = (score: number) => {
-    if (score >= 8) return "bg-red-600";
-    if (score >= 5) return "bg-amber-500";
-    return "bg-green-600";
-  };
 
   const checkJob = async () => {
     setLoading(true);
@@ -34,7 +23,7 @@ export default function Home() {
     if (found) {
       setResult({ 
         score: found.score * 10, 
-        report: found.report || `Dit beroep heeft een AI-exposure score van ${found.score}/10.` 
+        report: "Dit beroep heeft een AI-exposure score van " + found.score + "/10. " + (found.score >= 8 ? 'Zeer hoog risico.' : found.score >= 5 ? 'Gemiddeld risico.' : 'Veilig.')
       });
     } else {
       const response = await fetch("/api/check", {
@@ -78,37 +67,30 @@ export default function Home() {
           </div>
         </div>
 
-        {loading && (
-            <div className="space-y-4">
-                <AdSensePlaceholder slot="loading-top" label="Ad" />
-                <p className="animate-pulse text-slate-500">Analyseren...</p>
-            </div>
-        )}
+        {loading && <p className="animate-pulse text-slate-500">Analyseren...</p>}
 
         {result && (
           <Card className="bg-white border-slate-200 shadow-xl animate-in fade-in zoom-in duration-300">
-            <CardContent className="pt-6 space-y-4">
+            <CardContent className="pt-6 space-y-6">
               <div className="flex justify-between items-center mb-2">
                 <span className="text-sm font-medium uppercase tracking-widest text-slate-500">Risicoscore (0=Veilig, 10=Gevaar)</span>
-                <span className="text-3xl font-bold text-slate-900">
-                   {result.score / 10}/10 
-                </span>
+                <span className="text-3xl font-bold text-slate-900">{result.score / 10}/10</span>
               </div>
-              <Progress value={result.score} indicatorClassName={getScoreColor(result.score / 10)} className="h-4 bg-slate-100" />
+              <Progress value={result.score} className="h-4 bg-slate-100" />
               
               <div className="text-left space-y-4 pt-4 border-t border-slate-100">
                 <p className="text-lg leading-relaxed text-slate-800">{result.report}</p>
-                {result.tasks_disappearing && result.tasks_disappearing.length > 0 && (
-                    <div>
-                        <h4 className="font-semibold text-slate-900 mb-2">Taken onder druk:</h4>
-                        <ul className="list-disc pl-5 text-slate-600 space-y-1 text-sm">
-                            {result.tasks_disappearing.map((task, i) => (
-                                <li key={i}>{task}</li>
-                            ))}
-                        </ul>
-                    </div>
-                )}
-                <AdSensePlaceholder slot="result-footer" label="Ad" />
+                
+                {/* Premium Call-to-Action */}
+                <div className="bg-slate-900 p-6 rounded-lg text-white text-center space-y-3">
+                  <h3 className="font-bold flex items-center justify-center gap-2"><Sparkles className="text-orange-500" /> Wil je een diepgaande SWOT-analyse?</h3>
+                  <p className="text-sm text-slate-300">Ontgrendel je persoonlijke toekomstbestendige route voor slechts €1,99.</p>
+                  <Link href="/premium">
+                    <Button className="w-full bg-orange-600 hover:bg-orange-700 mt-2">
+                      Upgrade naar Premium
+                    </Button>
+                  </Link>
+                </div>
               </div>
             </CardContent>
           </Card>
@@ -121,3 +103,6 @@ export default function Home() {
     </main>
   );
 }
+
+// Klein hulpstukje voor de link
+import Link from "next/link";
