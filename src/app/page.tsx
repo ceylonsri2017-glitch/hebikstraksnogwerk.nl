@@ -1,13 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
-import { Copy, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import jobs from "../../data/jobs.json";
+import { Copy, Sparkles } from "lucide-react";
+import Link from "next/link";
 
 export default function Home() {
   const [job, setJob] = useState("");
@@ -57,7 +57,7 @@ export default function Home() {
       <div className="max-w-xl w-full text-center space-y-8">
         <div className="space-y-2">
           <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-slate-950">Heb ik straks nog werk?</h1>
-          <p className="text-slate-600">AI-exposure en robotiseringsrisico van jouw beroep</p>
+          <p className="text-slate-600">Hoe groot is AI-risico voor jouw baan?</p>
         </div>
 
         <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
@@ -106,7 +106,7 @@ export default function Home() {
                 </Button>
                 <Link href="/premium" className="block mt-4">
                   <Button className="w-full bg-slate-900 text-white hover:bg-slate-800">
-                     <Sparkles className="w-4 h-4 mr-2 text-orange-500" /> Upgrade naar Premium
+                     <Sparkles className="w-4 h-4 mr-2 text-orange-500" /> Bekijk jouw toekomstperspectief
                   </Button>
                 </Link>
               </div>
@@ -114,10 +114,6 @@ export default function Home() {
           </Card>
         )}
       </div>
-
-      <footer className="mt-20 text-center text-xs text-slate-400 pb-10">
-        <p className="opacity-60">Disclaimer: AI is onvoorspelbaar. Gebruik deze tool voor entertainment.</p>
-      </footer>
     </main>
   );
 }
