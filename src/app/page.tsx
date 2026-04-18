@@ -1,13 +1,13 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
+import { Copy, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import jobs from "../../data/jobs.json";
-import { Copy, Sparkles } from "lucide-react";
-import Link from "next/link";
 
 export default function Home() {
   const [job, setJob] = useState("");
@@ -39,6 +39,17 @@ export default function Home() {
       });
     }
     setLoading(false);
+  };
+
+  const shareResult = async () => {
+    if (!result) return;
+    const text = "Mijn baan '" + job + "' heeft een AI-exposure score van " + (result.score / 10) + "/10 op hebikstraksnogwerk.nl";
+    try {
+      await navigator.clipboard.writeText(text);
+      alert("Resultaat gekopieerd!");
+    } catch (err) {
+      console.error("Fout", err);
+    }
   };
 
   return (
@@ -80,17 +91,24 @@ export default function Home() {
               
               <div className="text-left space-y-4 pt-4 border-t border-slate-100">
                 <p className="text-lg leading-relaxed text-slate-800">{result.report}</p>
-                
-                {/* Premium Call-to-Action */}
-                <div className="bg-slate-900 p-6 rounded-lg text-white text-center space-y-3">
-                  <h3 className="font-bold flex items-center justify-center gap-2"><Sparkles className="text-orange-500" /> Wil je een diepgaande SWOT-analyse?</h3>
-                  <p className="text-sm text-slate-300">Ontgrendel je persoonlijke toekomstbestendige route voor slechts €1,99.</p>
-                  <Link href="/premium">
-                    <Button className="w-full bg-orange-600 hover:bg-orange-700 mt-2">
-                      Upgrade naar Premium
-                    </Button>
-                  </Link>
-                </div>
+                {result.tasks_disappearing && result.tasks_disappearing.length > 0 && (
+                    <div>
+                        <h4 className="font-semibold text-slate-900 mb-2">Taken onder druk:</h4>
+                        <ul className="list-disc pl-5 text-slate-600 space-y-1 text-sm">
+                            {result.tasks_disappearing.map((task, i) => (
+                                <li key={i}>{task}</li>
+                            ))}
+                        </ul>
+                    </div>
+                )}
+                <Button variant="ghost" onClick={shareResult} className="w-full text-xs text-slate-500 hover:text-slate-900">
+                  <Copy className="w-3 h-3 mr-2" /> Deel resultaat
+                </Button>
+                <Link href="/premium" className="block mt-4">
+                  <Button className="w-full bg-slate-900 text-white hover:bg-slate-800">
+                     <Sparkles className="w-4 h-4 mr-2 text-orange-500" /> Upgrade naar Premium
+                  </Button>
+                </Link>
               </div>
             </CardContent>
           </Card>
@@ -103,6 +121,3 @@ export default function Home() {
     </main>
   );
 }
-
-// Klein hulpstukje voor de link
-import Link from "next/link";
