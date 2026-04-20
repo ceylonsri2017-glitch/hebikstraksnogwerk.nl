@@ -1,18 +1,15 @@
 import { NextResponse } from "next/server";
 import OpenAI from "openai";
 
-// Zorg dat we expliciet de OpenRouter sleutel pakken
+// OpenRouter gebruikt de OpenAI SDK
 const openai = new OpenAI({
   baseURL: "https://openrouter.ai/api/v1",
-  apiKey: process.env.OPENROUTER_API_KEY || process.env.OPENAI_API_KEY,
+  apiKey: process.env.OPENAI_API_KEY || process.env.OPENROUTER_API_KEY,
 });
 
 export async function POST(request: Request) {
   try {
     const { job } = await request.json();
-    
-    // Debugging log voor Vercel (kijk in Vercel logs)
-    console.log("Checking API key availability:", !!process.env.OPENROUTER_API_KEY);
 
     const completion = await openai.chat.completions.create({
       messages: [
@@ -28,7 +25,8 @@ export async function POST(request: Request) {
         Response formaat: JSON met velden 'score' (number), 'report' (string), 'tasks_disappearing' (array of strings).` },
         { role: "user", content: `Beoordeel de functie: ${job}` }
       ],
-      model: "meta-llama/llama-3.3-70b-instruct:free",
+      // Gebruik model zonder :free voor betere stabiliteit
+      model: "meta-llama/llama-3.3-70b-instruct",
     });
 
     const content = JSON.parse(completion.choices[0].message.content || "{}");
@@ -40,7 +38,7 @@ export async function POST(request: Request) {
   } catch (error: any) {
     console.error("OpenRouter API Error:", error);
     return NextResponse.json({ 
-      ai_response: "De analyse-service is tijdelijk onbereikbaar. Controleer de API-key in Vercel instellingen.",
+      ai_response: "De analyse-service is tijdelijk onbereikbaar. Controleer je tegoed op OpenRouter.",
       score: 5,
       tasks_disappearing: ["Geen data beschikbaar"]
     }, { status: 500 });
