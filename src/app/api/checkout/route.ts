@@ -4,16 +4,22 @@ import Stripe from "stripe";
 export async function POST() {
   try {
     // Check of de STRIPE_SECRET_KEY is ingesteld in Vercel Environment Variables
-    // Dit gebeurt nu tijdens runtime, binnen de functie, om build-crashes te voorkomen
-    if (!process.env.STRIPE_SECRET_KEY) {
-      console.error("STRIPE_SECRET_KEY ontbreekt in Vercel Environment Variables! Zorg dat deze is ingesteld in Vercel Settings > Environment Variables.");
+    // Dit gebeurt nu tijdens runtime, binnen de functie.
+    const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
+
+    if (!stripeSecretKey) {
+      console.error("STRIPE_SECRET_KEY ontbreekt in Vercel Environment Variables!");
+      // Geef een duidelijke foutmelding als de key niet gevonden wordt
       return NextResponse.json({ error: "Server configuratiefout: Stripe sleutel ontbreekt." }, { status: 500 });
     }
 
+    // Nu wordt de sleutel gelogd, maar alleen de eerste paar karakters (privacy!)
+    console.log(`STRIPE_SECRET_KEY is beschikbaar. Voorvoegsel: ${stripeSecretKey.substring(0, 4)}...`);
+
     // Initialiseer Stripe client - nu binnen de functie en alleen als de key bestaat
-    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, { // '!' verwijderd om build-time crash te voorkomen
+    const stripe = new Stripe(stripeSecretKey, {
       // De API versie aangepast naar wat de type-checker verwacht ("2026-03-25.dahlia")
-      apiVersion: "2026-03-25.dahlia", 
+      apiVersion: "2026-03-25.dahlia",
     });
 
     const session = await stripe.checkout.sessions.create({
@@ -24,7 +30,7 @@ export async function POST() {
             currency: "eur",
             product_data: { name: "Premium Carrière SWOT-Rapport" },
             // Prijs definitief gezet op 99 cent (0.99 EUR)
-            unit_amount: 99, 
+            unit_amount: 99,
           },
           quantity: 1,
         },
