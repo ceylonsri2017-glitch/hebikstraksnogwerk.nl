@@ -30,7 +30,6 @@ export async function POST(request: Request) {
         { role: "user", content: `Beoordeel de functie: ${job}` }
       ],
       // We proberen nu een ander, stabiel model dat goed werkt met betaalde credits.
-      // Dit is de betaalde variant van het model dat eerder werd voorgesteld.
       model: "google/gemini-2.5-flash-lite-preview-02-05", // Zonder :free
     });
 
