@@ -1,15 +1,19 @@
 import { NextResponse } from "next/server";
 import OpenAI from "openai";
 
-// OpenRouter gebruikt de OpenAI SDK
-const openai = new OpenAI({
-  baseURL: "https://openrouter.ai/api/v1",
-  apiKey: process.env.OPENAI_API_KEY || process.env.OPENROUTER_API_KEY,
-});
-
 export async function POST(request: Request) {
   try {
     const { job } = await request.json();
+    
+    // Debug log: Controleer of de sleutel beschikbaar is tijdens runtime
+    const apiKeyAvailable = !!(process.env.OPENAI_API_KEY || process.env.OPENROUTER_API_KEY);
+    console.log("API key availability:", apiKeyAvailable);
+
+    // Initialiseer client PAS hierbinnen (lazy loading)
+    const openai = new OpenAI({
+      baseURL: "https://openrouter.ai/api/v1",
+      apiKey: process.env.OPENAI_API_KEY || process.env.OPENROUTER_API_KEY,
+    });
 
     const completion = await openai.chat.completions.create({
       messages: [
@@ -25,8 +29,9 @@ export async function POST(request: Request) {
         Response formaat: JSON met velden 'score' (number), 'report' (string), 'tasks_disappearing' (array of strings).` },
         { role: "user", content: `Beoordeel de functie: ${job}` }
       ],
-      // Gebruik model zonder :free voor betere stabiliteit
-      model: "meta-llama/llama-3.3-70b-instruct",
+      // We proberen nu een ander, stabiel model dat goed werkt met betaalde credits.
+      // Dit is de betaalde variant van het model dat eerder werd voorgesteld.
+      model: "google/gemini-2.5-flash-lite-preview-02-05", // Zonder :free
     });
 
     const content = JSON.parse(completion.choices[0].message.content || "{}");
@@ -37,8 +42,10 @@ export async function POST(request: Request) {
     });
   } catch (error: any) {
     console.error("OpenRouter API Error:", error);
+    // Deze fallback melding wordt getoond als er iets misgaat.
+    // Als je deze nog steeds ziet, controleer dan je credits/limieten op OpenRouter.
     return NextResponse.json({ 
-      ai_response: "De analyse-service is tijdelijk onbereikbaar. Controleer je tegoed op OpenRouter.",
+      ai_response: "Analyse service tijdelijk onbereikbaar. Controleer credits/tarieflimieten op OpenRouter.",
       score: 5,
       tasks_disappearing: ["Geen data beschikbaar"]
     }, { status: 500 });
