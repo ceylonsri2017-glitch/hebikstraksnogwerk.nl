@@ -1,25 +1,21 @@
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 
-// Check of de STRIPE_SECRET_KEY is ingesteld in de Vercel Environment Variables
-if (!process.env.STRIPE_SECRET_KEY) {
-  console.error("STRIPE_SECRET_KEY ontbreekt in Vercel Environment Variables!");
-}
-
-// Initialiseer Stripe client
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  // De API versie aangepast naar wat de type-checker verwacht ("2026-03-25.dahlia")
-  apiVersion: "2026-03-25.dahlia", 
-});
-
 export async function POST() {
-  try {
-    // Dit controleert of de sleutel nu wel beschikbaar is tijdens de runtime.
-    if (!process.env.STRIPE_SECRET_KEY) {
-      console.error("STRIPE_SECRET_KEY is nog steeds niet beschikbaar tijdens runtime.");
-      return NextResponse.json({ error: "Server configuratiefout: Stripe sleutel ontbreekt." }, { status: 500 });
-    }
+  // Controleer of de STRIPE_SECRET_KEY is ingesteld in de Vercel Environment Variables
+  // Deze check staat nu binnen de functie om build-crashes te voorkomen
+  if (!process.env.STRIPE_SECRET_KEY) {
+    console.error("STRIPE_SECRET_KEY ontbreekt in Vercel Environment Variables! Zorg dat deze is ingesteld in Vercel Settings > Environment Variables.");
+    return NextResponse.json({ error: "Server configuratiefout: Stripe sleutel ontbreekt." }, { status: 500 });
+  }
 
+  // Initialiseer Stripe client - nu binnen de functie
+  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+    // De API versie aangepast naar wat de type-checker verwacht ("2026-03-25.dahlia")
+    apiVersion: "2026-03-25.dahlia", 
+  });
+
+  try {
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       line_items: [

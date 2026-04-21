@@ -33,7 +33,17 @@ export async function POST(request: Request) {
       model: "google/gemini-2.5-flash-lite-preview-02-05", // Zonder :free
     });
 
-    const content = JSON.parse(completion.choices[0].message.content || "{}");
+    let responseContent = completion.choices[0].message.content || "{}";
+
+    // Verwijder markdown code block delimiters als ze aanwezig zijn
+    if (responseContent.startsWith("```json") && responseContent.endsWith("```")) {
+      responseContent = responseContent.replace(/^```json\n/, '').replace(/\n```$/, '');
+    } else if (responseContent.startsWith("```") && responseContent.endsWith("```")) {
+      // Fallback voor algemene code blocks
+       responseContent = responseContent.replace(/^```\n/, '').replace(/\n```$/, '');
+    }
+
+    const content = JSON.parse(responseContent);
     return NextResponse.json({ 
       ai_response: content.report,
       score: content.score,
