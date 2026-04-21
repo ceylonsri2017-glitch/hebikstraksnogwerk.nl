@@ -8,9 +8,8 @@ if (!process.env.STRIPE_SECRET_KEY) {
 
 // Initialiseer Stripe client
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  // Gebruik een recente, stabiele API versie. "2025-02-24.typescript" is een goede optie.
-  // Als je problemen blijft houden, kun je experimenteren met andere versies of de default proberen.
-  apiVersion: "2025-02-24.typescript", 
+  // De API versie aangepast naar wat de type-checker verwacht
+  apiVersion: "2026-03-25.dahlia", 
 });
 
 export async function POST() {
