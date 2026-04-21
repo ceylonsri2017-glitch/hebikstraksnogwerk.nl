@@ -8,7 +8,7 @@ if (!process.env.STRIPE_SECRET_KEY) {
 
 // Initialiseer Stripe client
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  // De API versie aangepast naar wat de type-checker verwacht
+  // De API versie aangepast naar wat de type-checker verwacht ("2026-03-25.dahlia")
   apiVersion: "2026-03-25.dahlia", 
 });
 
