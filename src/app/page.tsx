@@ -54,7 +54,14 @@ export default function Home() {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-6 bg-slate-50 text-slate-900">
-      <div className="max-w-xl w-full text-center space-y-8">
+      {/* Nieuwe container om de verticale banner en de hoofdinhoud naast elkaar te plaatsen */}
+      <div className="flex justify-center w-full gap-4">
+        {/* ADVERTENTIEPLAATS 2: Verticale banner links */}
+        <div className="ad-vertical-banner-container hidden md:block w-40 bg-gray-100 border p-2 rounded-md flex-shrink-0">
+          ADVERTENTIEPLAATS 2 - VERTICALE BANNER
+        </div>
+
+        <div className="max-w-xl w-full text-center space-y-8">
         <div className="space-y-2">
           <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-slate-950">Heb ik straks nog werk?</h1>
           <p className="text-slate-600">Hoe groot is AI-risico voor jouw baan?</p>
@@ -77,6 +84,9 @@ export default function Home() {
             </Button>
           </div>
         </div>
+
+        {/* ADVERTENTIEPLAATS 1: Tijdens wachten op resultaat */}
+        {!result && <div className="ad-container my-4 text-center border p-4 bg-gray-100 rounded-md">ADVERTENTIEPLAATS 1 - WACHTELIJST</div>}
 
         {loading && <p className="animate-pulse text-slate-500">Analyseren...</p>}
 
@@ -104,11 +114,7 @@ export default function Home() {
                 <Button variant="ghost" onClick={shareResult} className="w-full text-xs text-slate-500 hover:text-slate-900">
                   <Copy className="w-3 h-3 mr-2" /> Deel resultaat
                 </Button>
-                <Link href="/premium" className="block mt-4">
-                  <Button className="w-full bg-slate-900 text-white hover:bg-slate-800">
-                     <Sparkles className="w-4 h-4 mr-2 text-orange-500" /> Bekijk jouw toekomstperspectief
-                  </Button>
-                </Link>
+
               </div>
             </CardContent>
           </Card>
