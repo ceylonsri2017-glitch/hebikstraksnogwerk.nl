@@ -54,7 +54,7 @@ export default function PrivacybeleidPage() {
       <p className="mb-4">Wij behouden ons het recht voor om dit privacybeleid te allen tijde te wijzigen. Wijzigingen zullen op deze pagina worden gepubliceerd. Wij raden u aan dit beleid regelmatig te raadplegen.</p>
 
       <h2 className="text-2xl font-semibold mb-4">Contact</h2>
-      <p className="mb-4">Voor vragen over dit privacybeleid kunt u contact met ons opnemen via: info@scrambledminds.io</p>
+      <p className="mb-4">Voor vragen over dit privacybeleid kunt u contact met ons opnemen via: <a href="mailto:info@scrambledminds.io" className="text-blue-600 hover:underline">info@scrambledminds.io</a></p>
     </div>
   );
 }

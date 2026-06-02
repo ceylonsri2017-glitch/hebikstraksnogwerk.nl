@@ -29,7 +29,7 @@ export default function VeelgesteldeVragenPage() {
       <h2 className="text-2xl font-semibold mb-4">Problemen of Feedback?</h2>
       <p className="mb-4">Heeft u een vraag die hier niet beantwoord wordt? Werkt iets niet goed? Of heeft u suggesties om de tool te verbeteren? Wij horen het graag!</p>
       <ul className="list-disc pl-5 mb-4">
-        <li><strong>Mail uw vraag of feedback:</strong> Stuur een e-mail naar info@scrambledminds.io. We proberen zo snel mogelijk te reageren.</li>
+        <li><strong>Mail uw vraag of feedback:</strong> Stuur een e-mail naar <a href="mailto:info@scrambledminds.io" className="text-blue-600 hover:underline">info@scrambledminds.io</a>. We proberen zo snel mogelijk te reageren.</li>
       </ul>
     </div>
   );

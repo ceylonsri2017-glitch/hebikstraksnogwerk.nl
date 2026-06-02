@@ -6,7 +6,7 @@ export default function ContactPage() {
 
       <h2 className="text-2xl font-semibold mb-4">Hoe kunt u ons bereiken?</h2>
       <ul className="list-disc pl-5 mb-4">
-        <li><strong>E-mail:</strong> Voor al uw vragen, opmerkingen of suggesties kunt u ons een e-mail sturen naar: <strong>info@scrambledminds.io</strong></li>
+        <li><strong>E-mail:</strong> Voor al uw vragen, opmerkingen of suggesties kunt u ons een e-mail sturen naar: <strong><a href="mailto:info@scrambledminds.io" className="text-blue-600 hover:underline">info@scrambledminds.io</a></strong></li>
         <li><strong>Sociale Media:</strong> Binnenkort zijn we ook actief op sociale media. Houd onze website in de gaten voor updates!</li>
       </ul>
 

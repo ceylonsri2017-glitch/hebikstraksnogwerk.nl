@@ -32,8 +32,8 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col">
         {children}
-        <footer className="w-full mt-auto bg-gray-100 dark:bg-gray-800 p-4">
-          <nav className="max-w-7xl mx-auto flex flex-wrap justify-center gap-4 text-sm text-gray-600 dark:text-gray-300">
+        <footer className="w-full mt-auto bg-gray-100 p-4">
+          <nav className="max-w-7xl mx-auto flex flex-wrap justify-center gap-4 text-sm text-gray-600">
             <a href="/over-deze-tool" className="hover:underline">Over deze tool</a>
             <a href="/artikelen-en-inzichten" className="hover:underline">Artikelen en inzichten</a>
             <a href="/veelgestelde-vragen" className="hover:underline">Veelgestelde vragen</a>
