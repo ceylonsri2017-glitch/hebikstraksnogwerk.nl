@@ -30,7 +30,18 @@ export default function RootLayout({
       lang="nl"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        {children}
+        <footer className="w-full mt-auto bg-gray-100 dark:bg-gray-800 p-4">
+          <nav className="max-w-7xl mx-auto flex flex-wrap justify-center gap-4 text-sm text-gray-600 dark:text-gray-300">
+            <a href="/over-deze-tool" className="hover:underline">Over deze tool</a>
+            <a href="/artikelen-en-inzichten" className="hover:underline">Artikelen en inzichten</a>
+            <a href="/veelgestelde-vragen" className="hover:underline">Veelgestelde vragen</a>
+            <a href="/contact" className="hover:underline">Contact</a>
+            <a href="/privacybeleid" className="hover:underline">Privacybeleid</a>
+          </nav>
+        </footer>
+      </body>
     </html>
   );
 }
